@@ -1,0 +1,24 @@
+{
+  "name": "address-book",
+  "version": "1.0.0",
+  "description": "A console based address book.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilnersson/address-book.git"
+  },
+  "author": "Henrik Wilnersson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wilnersson/address-book/issues"
+  },
+  "homepage": "https://github.com/wilnersson/address-book#readme",
+  "dependencies": {
+    "@wilnersson/console-input-collector": "^1.0.1"
+  }
+}
