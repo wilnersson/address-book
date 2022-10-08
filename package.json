@@ -20,5 +20,14 @@
   "homepage": "https://github.com/wilnersson/address-book#readme",
   "dependencies": {
     "@wilnersson/console-input-collector": "^1.0.1"
+  },
+  "devDependencies": {
+    "@lnu/eslint-config": "^1.1.6"
+  },
+  "eslintConfig": {
+    "extends": "@lnu",
+    "rules": {
+      "jsdoc/require-jsdoc": "off"
+    }
   }
 }
