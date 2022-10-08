@@ -27,7 +27,8 @@
   "eslintConfig": {
     "extends": "@lnu",
     "rules": {
-      "jsdoc/require-jsdoc": "off"
+      "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-description": "off"
     }
   }
 }

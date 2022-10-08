@@ -76,6 +76,9 @@ export class Address {
     return this.#addressType
   }
 
+  /**
+   * @returns {string[]} - an array of strings representing allowed address types.
+   */
   static getAddressTypeEnums () {
     return Array.from(this.#ADDRESS_TYPE_ENUMS)
   }
