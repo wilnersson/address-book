@@ -1,12 +1,14 @@
+import { User } from './controller/User.js'
+import { AddressBook } from './model/domain/AddressBook.js'
+
 /**
  * Main entrypoint of the application.
  */
+function start () {
+  const addressBook = new AddressBook()
+  const userController = new User(addressBook)
 
-import collector from '@wilnersson/console-input-collector'
-
-async function start () {
-  const answer = await collector.requestStringInput('First test of my package! How are you?')
-  console.log('Wohoo! Your answer was: ' + answer)
+  userController.startUi()
 }
 
 start()
