@@ -1,14 +1,18 @@
 import { AddressBook } from '../model/domain/AddressBook.js'
+import { Console } from '../view/Console.js'
 
 /**
  * Represents the user of the application.
  */
 export class User {
   #addressBook
+  #ui
 
   constructor (addressBook) {
     this.#validateAddressBook(addressBook)
     this.#addressBook = addressBook
+
+    this.#ui = new Console()
   }
 
   #validateAddressBook (addressBook) {
@@ -17,11 +21,10 @@ export class User {
     }
   }
 
-  startUi () {
+  async startUi () {
     // TODO: Add application flow and ui.
 
     // Debug.
-    console.log('Welcome to the address book!')
-    console.log(this.#addressBook.getContacts())
+    await this.#ui.printMainMenu()
   }
 }
