@@ -22,5 +22,6 @@ export class User {
 
     // Debug.
     console.log('Welcome to the address book!')
+    console.log(this.#addressBook.getContacts())
   }
 }

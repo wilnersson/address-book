@@ -1,3 +1,4 @@
+import { PersistenceFacade } from '../persistence/PersistenceFacade.js'
 import { Contact } from './Contact.js'
 
 /**
@@ -5,8 +6,19 @@ import { Contact } from './Contact.js'
  */
 export class AddressBook {
   #contacts = new Set()
+  #persistence
 
-  // TODO: Add constructor and fetch existing contacts from persistence.
+  constructor () {
+    this.#persistence = new PersistenceFacade()
+    this.#loadContactsFromPersistence()
+  }
+
+  #loadContactsFromPersistence () {
+    const contacts = this.#persistence.getContacts()
+    for (const contact of contacts) {
+      this.#contacts.add(contact)
+    }
+  }
 
   addContact (contact) {
     this.#validateContact(contact)
