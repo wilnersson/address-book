@@ -37,6 +37,6 @@ export class AddressBook {
   }
 
   getContacts () {
-    return this.#contacts
+    return Array.from(this.#contacts)
   }
 }

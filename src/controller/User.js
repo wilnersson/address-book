@@ -1,6 +1,7 @@
 import { AddressBook } from '../model/domain/AddressBook.js'
 import { Console } from '../view/Console.js'
 import { mainMenuItems } from '../view/menuEnums.js'
+import { ContactList } from './ContactList.js'
 
 /**
  * Represents the user of the application.
@@ -25,15 +26,18 @@ export class User {
   async startUi () {
     do {
       await this.#ui.printMainMenu()
-      this.#runMainMenuItem()
+      await this.#runMainMenuItem()
     } while (this.#userDoesNotWantToQuit())
   }
 
-  #runMainMenuItem () {
+  #userDoesNotWantToQuit () {
+    return this.#ui.getMainMenuSelection().value !== mainMenuItems.QUIT.value
+  }
+
+  async #runMainMenuItem () {
     switch (this.#ui.getMainMenuSelection().value) {
       case mainMenuItems.LIST_CONTACTS.value:
-        // TODO: Implement contact list logic.
-        console.log('List contacts please...')
+        await this.#runContactList()
         break
       case mainMenuItems.ADD_CONTACT.value:
         // TODO: Implement add contact logic.
@@ -43,7 +47,8 @@ export class User {
     }
   }
 
-  #userDoesNotWantToQuit () {
-    return this.#ui.getMainMenuSelection().value !== mainMenuItems.QUIT.value
+  async #runContactList () {
+    const contactListController = new ContactList(this.#addressBook, this.#ui)
+    await contactListController.startUi()
   }
 }

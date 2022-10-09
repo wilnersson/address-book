@@ -4,6 +4,7 @@ import { mainMenuItems } from './menuEnums.js'
 export class Console {
   #mainMenuChoices = []
   #currentMainMenuSelection
+  #currentContactSelection
 
   constructor () {
     this.#buildMainMenuChoices()
@@ -26,6 +27,22 @@ export class Console {
 
   getMainMenuSelection () {
     return Object.values(mainMenuItems)[this.#currentMainMenuSelection.choiceNumber - 1]
+  }
+
+  async printContacts (contacts) {
+    try {
+      this.#currentContactSelection = await collector.requestSingleChoiceInput(
+        'Contact list',
+        contacts.map((contact) => { return contact.getFullName() })
+      )
+    } catch (error) {
+      this.alertUser(error.message)
+      await this.printContacts(contacts)
+    }
+  }
+
+  getContactSelection (contacts) {
+    return contacts[this.#currentContactSelection.choiceNumber - 1]
   }
 
   alertUser (message) {

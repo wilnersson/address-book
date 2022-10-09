@@ -31,6 +31,10 @@ export class Contact {
     return this.#lastName
   }
 
+  getFullName () {
+    return this.#firstName + ' ' + this.#lastName
+  }
+
   #validateName (name) {
     const error = new TypeError('Name must be a string with at least 2 characters.')
 
