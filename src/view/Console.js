@@ -1,22 +1,34 @@
 import collector from '@wilnersson/console-input-collector'
+import { mainMenuItems } from './menuEnums.js'
 
 export class Console {
-  #mainMenuChoices
+  #mainMenuChoices = []
+  #currentMainMenuSelection
 
   constructor () {
     this.#buildMainMenuChoices()
   }
 
   #buildMainMenuChoices () {
-    const choices = []
-    choices.push('List your contacts')
-    choices.push('Add a contact')
-    choices.push('Exit')
-
-    this.#mainMenuChoices = choices
+    for (const item in mainMenuItems) {
+      this.#mainMenuChoices.push(mainMenuItems[item].toString())
+    }
   }
 
   async printMainMenu () {
-    await collector.requestSingleChoiceInput('Main menu', this.#mainMenuChoices)
+    try {
+      this.#currentMainMenuSelection = await collector.requestSingleChoiceInput('Main menu', this.#mainMenuChoices)
+    } catch (error) {
+      this.alertUser(error.message)
+      await this.printMainMenu()
+    }
+  }
+
+  getMainMenuSelection () {
+    return Object.values(mainMenuItems)[this.#currentMainMenuSelection.choiceNumber - 1]
+  }
+
+  alertUser (message) {
+    console.log(message + '\n')
   }
 }
