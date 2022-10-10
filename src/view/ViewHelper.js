@@ -13,4 +13,8 @@ export class ViewHelper {
   printEmptyLine () {
     console.log()
   }
+
+  printHeader (header) {
+    console.log('--- ' + header + ' ---')
+  }
 }

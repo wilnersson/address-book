@@ -74,10 +74,9 @@ export class ContactView {
     return Object.values(contactMenuItems)[this.#currentContactMenuSelection.choiceNumber - 1]
   }
 
-  // TODO: Fix mix of abstraction level?
   async printAddContactPage () {
     this.#viewHelper.clearConsole()
-    console.log('--- Add new contact ---')
+    this.#viewHelper.printHeader('Add new contact')
     await this.#collectNewContactInformation()
   }
 

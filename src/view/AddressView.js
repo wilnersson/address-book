@@ -13,7 +13,7 @@ export class AddressView {
 
   async printAddAddressPage () {
     this.#viewHelper.clearConsole()
-    console.log('--- Add new address ---')
+    this.#viewHelper.printHeader('Add new address')
     await this.#collectNewAddressInformation()
   }
 
