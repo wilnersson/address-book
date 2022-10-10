@@ -13,17 +13,19 @@ export class ContactList {
 
   async startUi () {
     await this.#listAllContacts()
-    this.#showContact()
+    await this.#showContact()
   }
 
   async #listAllContacts () {
     await this.#ui.printContacts(this.#addressBook.getContacts())
   }
 
-  #showContact () {
+  async #showContact () {
     const contact = this.#ui.getContactSelection(this.#addressBook.getContacts())
+    await this.#ui.printContactPage(contact)
+  }
 
-    // Debug
-    console.log('You selected: ' + contact.getFullName())
+  #startContactUi () {
+    // TODO: Get contact menu choice and split logic.
   }
 }

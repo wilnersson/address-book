@@ -59,6 +59,6 @@ export class Contact {
   }
 
   getAddresses () {
-    return this.#addresses
+    return Array.from(this.#addresses)
   }
 }

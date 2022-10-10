@@ -18,3 +18,12 @@ export const mainMenuItems = {
     }
   }
 }
+
+export const contactMenuItems = {
+  ADD_ADDRESS: {
+    value: 'ADD_ADDRESS',
+    toString: () => {
+      return 'Add a new address'
+    }
+  }
+}
