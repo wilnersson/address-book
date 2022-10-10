@@ -1,6 +1,7 @@
 import collector from '@wilnersson/console-input-collector'
 import { Contact } from '../model/domain/Contact.js'
 import { contactMenuItems } from './menuEnums.js'
+import { ViewHelper } from './ViewHelper.js'
 
 export class ContactView {
   #currentContactSelection
@@ -8,8 +9,11 @@ export class ContactView {
   #currentContactMenuSelection
   #lastCreatedContact
 
+  #viewHelper
+
   constructor () {
     this.#buildContactMenuChoices()
+    this.#viewHelper = new ViewHelper()
   }
 
   #buildContactMenuChoices () {
@@ -20,13 +24,13 @@ export class ContactView {
 
   async printContacts (contacts) {
     try {
-      this.#clearConsole()
+      this.#viewHelper.clearConsole()
       this.#currentContactSelection = await collector.requestSingleChoiceInput(
         'Contact list',
         contacts.map((contact) => { return contact.getFullName() })
       )
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.printContacts(contacts)
     }
   }
@@ -36,9 +40,9 @@ export class ContactView {
   }
 
   async printContactPage (contact) {
-    this.#clearConsole()
+    this.#viewHelper.clearConsole()
     this.#printContact(contact)
-    this.#printEmptyLine()
+    this.#viewHelper.printEmptyLine()
     this.#printAddresses(contact.getAddresses())
     await this.#printContactMenu()
   }
@@ -53,7 +57,7 @@ export class ContactView {
       console.log(address.getStreetName() + ' ' + address.getHouseNumber())
       console.log(address.getPostalCode() + ' ' + address.getCity())
       console.log(address.getCountry())
-      this.#printEmptyLine()
+      this.#viewHelper.printEmptyLine()
     }
   }
 
@@ -61,7 +65,7 @@ export class ContactView {
     try {
       this.#currentContactMenuSelection = await collector.requestSingleChoiceInput('Contact menu', this.#contactMenuChoices)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#printContactMenu()
     }
   }
@@ -72,7 +76,7 @@ export class ContactView {
 
   // TODO: Fix mix of abstraction level?
   async printAddContactPage () {
-    this.#clearConsole()
+    this.#viewHelper.clearConsole()
     console.log('--- Add new contact ---')
     await this.#collectNewContactInformation()
   }
@@ -89,7 +93,7 @@ export class ContactView {
       const firstName = await collector.requestStringInput('First name:', Contact.MAX_NAME_LENGTH)
       contact.setFirstName(firstName)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectContactFirstName(contact)
     }
   }
@@ -99,25 +103,12 @@ export class ContactView {
       const lastName = await collector.requestStringInput('Last name:', Contact.MAX_NAME_LENGTH)
       contact.setLastName(lastName)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectContactLastName(contact)
     }
   }
 
   getLastCreatedContact () {
     return this.#lastCreatedContact
-  }
-
-  // TODO: Refactor helpers to own class.
-  #alertUser (message) {
-    console.log(message + '\n')
-  }
-
-  #clearConsole () {
-    console.clear()
-  }
-
-  #printEmptyLine () {
-    console.log()
   }
 }

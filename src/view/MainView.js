@@ -1,12 +1,16 @@
 import collector from '@wilnersson/console-input-collector'
 import { mainMenuItems } from './menuEnums.js'
+import { ViewHelper } from './ViewHelper.js'
 
 export class MainView {
   #mainMenuChoices = []
   #currentMainMenuSelection
 
+  #viewHelper
+
   constructor () {
     this.#buildMainMenuChoices()
+    this.#viewHelper = new ViewHelper()
   }
 
   #buildMainMenuChoices () {
@@ -17,28 +21,15 @@ export class MainView {
 
   async printMainMenu () {
     try {
-      this.#clearConsole()
+      this.#viewHelper.clearConsole()
       this.#currentMainMenuSelection = await collector.requestSingleChoiceInput('Main menu', this.#mainMenuChoices)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.printMainMenu()
     }
   }
 
   getMainMenuSelection () {
     return Object.values(mainMenuItems)[this.#currentMainMenuSelection.choiceNumber - 1]
-  }
-
-  // TODO: Refactor to helper class.
-  #alertUser (message) {
-    console.log(message + '\n')
-  }
-
-  #clearConsole () {
-    console.clear()
-  }
-
-  #printEmptyLine () {
-    console.log()
   }
 }

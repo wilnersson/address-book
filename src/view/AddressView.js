@@ -1,11 +1,18 @@
 import collector from '@wilnersson/console-input-collector'
 import { Address } from '../model/domain/Address.js'
+import { ViewHelper } from './ViewHelper.js'
 
 export class AddressView {
   #lastCreatedAddress
 
+  #viewHelper
+
+  constructor () {
+    this.#viewHelper = new ViewHelper()
+  }
+
   async printAddAddressPage () {
-    this.#clearConsole()
+    this.#viewHelper.clearConsole()
     console.log('--- Add new address ---')
     await this.#collectNewAddressInformation()
   }
@@ -26,7 +33,7 @@ export class AddressView {
       const addressType = await collector.requestSingleChoiceInput('Address type:', Address.getAddressTypeEnums())
       address.setAddressType(addressType.choiceText)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectAddressType(address)
     }
   }
@@ -36,7 +43,7 @@ export class AddressView {
       const streetName = await collector.requestStringInput('Street name:')
       address.setStreetName(streetName)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectAddressStreetName(address)
     }
   }
@@ -46,7 +53,7 @@ export class AddressView {
       const houseNumber = await collector.requestStringInput('House number:')
       address.setHouseNumber(houseNumber)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectAddressHouseNumber(address)
     }
   }
@@ -56,7 +63,7 @@ export class AddressView {
       const postalCode = await collector.requestStringInput('Postal code:')
       address.setPostalCode(postalCode)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectAddressPostalCode(address)
     }
   }
@@ -66,7 +73,7 @@ export class AddressView {
       const city = await collector.requestStringInput('City:')
       address.setCity(city)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectAddressCity(address)
     }
   }
@@ -76,25 +83,12 @@ export class AddressView {
       const country = await collector.requestStringInput('Country:')
       address.setCountry(country)
     } catch (error) {
-      this.#alertUser(error.message)
+      this.#viewHelper.alertUser(error.message)
       await this.#collectAddressCountry(address)
     }
   }
 
   getLastCreatedAddress () {
     return this.#lastCreatedAddress
-  }
-
-  // TODO: Refactor to helper class.
-  #alertUser (message) {
-    console.log(message + '\n')
-  }
-
-  #clearConsole () {
-    console.clear()
-  }
-
-  #printEmptyLine () {
-    console.log()
   }
 }
