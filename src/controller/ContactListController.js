@@ -18,8 +18,12 @@ export class ContactListController {
   }
 
   async startUi () {
-    await this.#listAllContacts()
-    await this.#startContactUi()
+    if (this.#addressBook.getContacts().length > 0) {
+      await this.#listAllContacts()
+      await this.#startContactUi()
+    } else {
+      await this.#ui.printNoContactsPage()
+    }
   }
 
   async #listAllContacts () {

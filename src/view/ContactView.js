@@ -39,6 +39,11 @@ export class ContactView {
     return contacts[this.#currentContactSelection.choiceNumber - 1]
   }
 
+  async printNoContactsPage () {
+    this.#viewHelper.clearConsole()
+    await collector.requestStringInput('No saved contacts, press enter to go back...')
+  }
+
   async printContactPage (contact) {
     this.#viewHelper.clearConsole()
     this.#printContact(contact)
