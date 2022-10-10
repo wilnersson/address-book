@@ -1,7 +1,8 @@
+import { contactMenuItems } from '../view/menuEnums.js'
+
 /**
  * Controller for listing contacts.
  */
-
 export class ContactList {
   #addressBook
   #ui
@@ -13,11 +14,18 @@ export class ContactList {
 
   async startUi () {
     await this.#listAllContacts()
-    await this.#showContact()
+    await this.#startContactUi()
   }
 
   async #listAllContacts () {
     await this.#ui.printContacts(this.#addressBook.getContacts())
+  }
+
+  async #startContactUi () {
+    do {
+      await this.#showContact()
+      this.#runContactMenuItem()
+    } while (this.#userDoesNotWantToGoBack())
   }
 
   async #showContact () {
@@ -25,7 +33,17 @@ export class ContactList {
     await this.#ui.printContactPage(contact)
   }
 
-  #startContactUi () {
-    // TODO: Get contact menu choice and split logic.
+  #userDoesNotWantToGoBack () {
+    return this.#ui.getContactMenuSelection().value !== contactMenuItems.BACK.value
+  }
+
+  #runContactMenuItem () {
+    switch (this.#ui.getContactMenuSelection().value) {
+      case contactMenuItems.ADD_ADDRESS.value:
+        // TODO: Add add address logic.
+        break
+      case contactMenuItems.BACK.value:
+        break
+    }
   }
 }

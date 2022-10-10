@@ -25,5 +25,11 @@ export const contactMenuItems = {
     toString: () => {
       return 'Add a new address'
     }
+  },
+  BACK: {
+    value: 'BACK',
+    toString: () => {
+      return 'Back to main menu'
+    }
   }
 }

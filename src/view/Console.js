@@ -88,6 +88,10 @@ export class Console {
     }
   }
 
+  getContactMenuSelection () {
+    return Object.values(contactMenuItems)[this.#currentContactMenuSelection.choiceNumber - 1]
+  }
+
   #alertUser (message) {
     console.log(message + '\n')
   }
