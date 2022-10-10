@@ -6,13 +6,15 @@ import { ContactController } from './ContactController.js'
  */
 export class ContactListController {
   #addressBook
+  #viewFactory
   #ui
 
   #currentContact
 
-  constructor (addressBook, ui) {
+  constructor (addressBook, viewFactory) {
     this.#addressBook = addressBook
-    this.#ui = ui
+    this.#viewFactory = viewFactory
+    this.#ui = this.#viewFactory.getContactView()
   }
 
   async startUi () {
@@ -51,7 +53,7 @@ export class ContactListController {
   }
 
   async #runAddAddress () {
-    const contactController = new ContactController(this.#addressBook, this.#ui)
+    const contactController = new ContactController(this.#addressBook, this.#viewFactory)
     await contactController.startAddNewAddress(this.#currentContact)
   }
 }

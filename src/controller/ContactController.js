@@ -3,30 +3,32 @@
  */
 export class ContactController {
   #addressBook
-  #ui
+  #contactUi
+  #addressUi
 
-  constructor (addressBook, ui) {
+  constructor (addressBook, viewFactory) {
     this.#addressBook = addressBook
-    this.#ui = ui
+    this.#contactUi = viewFactory.getContactView()
+    this.#addressUi = viewFactory.getAddressView()
   }
 
   async startAddNewContact () {
-    await this.#ui.printAddContactPage()
+    await this.#contactUi.printAddContactPage()
     this.#addContactToAddressBook()
   }
 
   #addContactToAddressBook () {
-    const newContact = this.#ui.getLastCreatedContact()
+    const newContact = this.#contactUi.getLastCreatedContact()
     this.#addressBook.addContact(newContact)
   }
 
   async startAddNewAddress (contact) {
-    await this.#ui.printAddAddressPage()
+    await this.#addressUi.printAddAddressPage()
     this.#addAddressToContact(contact)
   }
 
   #addAddressToContact (contact) {
-    const newAddress = this.#ui.getLastCreatedAddress()
+    const newAddress = this.#addressUi.getLastCreatedAddress()
     contact.addAddress(newAddress)
   }
 }

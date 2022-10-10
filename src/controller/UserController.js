@@ -1,5 +1,4 @@
 import { AddressBook } from '../model/domain/AddressBook.js'
-import { Console } from '../view/Console.js'
 import { mainMenuItems } from '../view/menuEnums.js'
 import { ContactController } from './ContactController.js'
 import { ContactListController } from './ContactListController.js'
@@ -10,12 +9,14 @@ import { ContactListController } from './ContactListController.js'
 export class UserController {
   #addressBook
   #ui
+  #viewFactory
 
-  constructor (addressBook) {
+  constructor (addressBook, viewFactory) {
     this.#validateAddressBook(addressBook)
     this.#addressBook = addressBook
+    this.#viewFactory = viewFactory
 
-    this.#ui = new Console()
+    this.#ui = this.#viewFactory.getMainView()
   }
 
   #validateAddressBook (addressBook) {
@@ -49,12 +50,12 @@ export class UserController {
   }
 
   async #runContactList () {
-    const contactListController = new ContactListController(this.#addressBook, this.#ui)
+    const contactListController = new ContactListController(this.#addressBook, this.#viewFactory)
     await contactListController.startUi()
   }
 
   async #runAddContact () {
-    const contactController = new ContactController(this.#addressBook, this.#ui)
+    const contactController = new ContactController(this.#addressBook, this.#viewFactory)
     await contactController.startAddNewContact()
   }
 }
