@@ -1,4 +1,4 @@
-import { User } from './controller/User.js'
+import { UserController } from './controller/UserController.js'
 import { AddressBook } from './model/domain/AddressBook.js'
 
 /**
@@ -6,7 +6,7 @@ import { AddressBook } from './model/domain/AddressBook.js'
  */
 function start () {
   const addressBook = new AddressBook()
-  const userController = new User(addressBook)
+  const userController = new UserController(addressBook)
 
   userController.startUi()
 }

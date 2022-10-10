@@ -7,7 +7,7 @@ import { ContactList } from './ContactList.js'
 /**
  * Represents the user of the application.
  */
-export class User {
+export class UserController {
   #addressBook
   #ui
 

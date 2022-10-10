@@ -3,7 +3,7 @@ import { contactMenuItems } from '../view/menuEnums.js'
 /**
  * Controller for listing contacts.
  */
-export class ContactList {
+export class ContactListController {
   #addressBook
   #ui
 
