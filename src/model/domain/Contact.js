@@ -8,6 +8,8 @@ export class Contact {
   #lastName
   #addresses = new Set()
 
+  static MAX_NAME_LENGTH = 100
+
   constructor (firstName, lastName) {
     this.setFirstName(firstName)
     this.setLastName(lastName)

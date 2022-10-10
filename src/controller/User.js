@@ -1,6 +1,7 @@
 import { AddressBook } from '../model/domain/AddressBook.js'
 import { Console } from '../view/Console.js'
 import { mainMenuItems } from '../view/menuEnums.js'
+import { ContactController } from './ContactController.js'
 import { ContactList } from './ContactList.js'
 
 /**
@@ -40,7 +41,7 @@ export class User {
         await this.#runContactList()
         break
       case mainMenuItems.ADD_CONTACT.value:
-        // TODO: Implement add contact logic.
+        await this.#runAddContact()
         break
       case mainMenuItems.QUIT.value:
         break
@@ -50,5 +51,10 @@ export class User {
   async #runContactList () {
     const contactListController = new ContactList(this.#addressBook, this.#ui)
     await contactListController.startUi()
+  }
+
+  async #runAddContact () {
+    const contactController = new ContactController(this.#addressBook, this.#ui)
+    await contactController.startUi()
   }
 }

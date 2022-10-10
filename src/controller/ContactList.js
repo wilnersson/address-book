@@ -23,12 +23,12 @@ export class ContactList {
 
   async #startContactUi () {
     do {
-      await this.#showContact()
+      await this.#runContactPage()
       this.#runContactMenuItem()
     } while (this.#userDoesNotWantToGoBack())
   }
 
-  async #showContact () {
+  async #runContactPage () {
     const contact = this.#ui.getContactSelection(this.#addressBook.getContacts())
     await this.#ui.printContactPage(contact)
   }
