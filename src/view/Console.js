@@ -18,9 +18,10 @@ export class Console {
 
   async printMainMenu () {
     try {
+      this.#clearConsole()
       this.#currentMainMenuSelection = await collector.requestSingleChoiceInput('Main menu', this.#mainMenuChoices)
     } catch (error) {
-      this.alertUser(error.message)
+      this.#alertUser(error.message)
       await this.printMainMenu()
     }
   }
@@ -31,12 +32,13 @@ export class Console {
 
   async printContacts (contacts) {
     try {
+      this.#clearConsole()
       this.#currentContactSelection = await collector.requestSingleChoiceInput(
         'Contact list',
         contacts.map((contact) => { return contact.getFullName() })
       )
     } catch (error) {
-      this.alertUser(error.message)
+      this.#alertUser(error.message)
       await this.printContacts(contacts)
     }
   }
@@ -45,7 +47,11 @@ export class Console {
     return contacts[this.#currentContactSelection.choiceNumber - 1]
   }
 
-  alertUser (message) {
+  #alertUser (message) {
     console.log(message + '\n')
+  }
+
+  #clearConsole () {
+    console.clear()
   }
 }
