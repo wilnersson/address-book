@@ -1,4 +1,5 @@
 import { contactMenuItems } from '../view/menuEnums.js'
+import { ContactController } from './ContactController.js'
 
 /**
  * Controller for listing contacts.
@@ -6,6 +7,8 @@ import { contactMenuItems } from '../view/menuEnums.js'
 export class ContactListController {
   #addressBook
   #ui
+
+  #currentContact
 
   constructor (addressBook, ui) {
     this.#addressBook = addressBook
@@ -24,26 +27,31 @@ export class ContactListController {
   async #startContactUi () {
     do {
       await this.#runContactPage()
-      this.#runContactMenuItem()
+      await this.#runContactMenuItem()
     } while (this.#userDoesNotWantToGoBack())
   }
 
   async #runContactPage () {
-    const contact = this.#ui.getContactSelection(this.#addressBook.getContacts())
-    await this.#ui.printContactPage(contact)
+    this.#currentContact = this.#ui.getContactSelection(this.#addressBook.getContacts())
+    await this.#ui.printContactPage(this.#currentContact)
   }
 
   #userDoesNotWantToGoBack () {
     return this.#ui.getContactMenuSelection().value !== contactMenuItems.BACK.value
   }
 
-  #runContactMenuItem () {
+  async #runContactMenuItem () {
     switch (this.#ui.getContactMenuSelection().value) {
       case contactMenuItems.ADD_ADDRESS.value:
-        // TODO: Add add address logic.
+        await this.#runAddAddress()
         break
       case contactMenuItems.BACK.value:
         break
     }
+  }
+
+  async #runAddAddress () {
+    const contactController = new ContactController(this.#addressBook, this.#ui)
+    await contactController.startAddNewAddress(this.#currentContact)
   }
 }

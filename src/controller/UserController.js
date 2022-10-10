@@ -2,7 +2,7 @@ import { AddressBook } from '../model/domain/AddressBook.js'
 import { Console } from '../view/Console.js'
 import { mainMenuItems } from '../view/menuEnums.js'
 import { ContactController } from './ContactController.js'
-import { ContactList } from './ContactList.js'
+import { ContactListController } from './ContactListController.js'
 
 /**
  * Represents the user of the application.
@@ -49,12 +49,12 @@ export class UserController {
   }
 
   async #runContactList () {
-    const contactListController = new ContactList(this.#addressBook, this.#ui)
+    const contactListController = new ContactListController(this.#addressBook, this.#ui)
     await contactListController.startUi()
   }
 
   async #runAddContact () {
     const contactController = new ContactController(this.#addressBook, this.#ui)
-    await contactController.startUi()
+    await contactController.startAddNewContact()
   }
 }

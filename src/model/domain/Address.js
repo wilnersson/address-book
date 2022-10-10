@@ -9,7 +9,7 @@ export class Address {
   #country
   #addressType
 
-  #ADDRESS_TYPE_ENUMS = [
+  static #ADDRESS_TYPE_ENUMS = [
     'Home',
     'Work',
     'Temporary'
@@ -80,11 +80,11 @@ export class Address {
    * @returns {string[]} - an array of strings representing allowed address types.
    */
   static getAddressTypeEnums () {
-    return Array.from(this.#ADDRESS_TYPE_ENUMS)
+    return Array.from(Address.#ADDRESS_TYPE_ENUMS)
   }
 
   #validateAddressType (addressType) {
-    if (!this.#ADDRESS_TYPE_ENUMS.includes(addressType)) {
+    if (!Address.#ADDRESS_TYPE_ENUMS.includes(addressType)) {
       throw new TypeError('addressType must be one of Address.getAddressTypeEnums().')
     }
   }

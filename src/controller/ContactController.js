@@ -10,7 +10,7 @@ export class ContactController {
     this.#ui = ui
   }
 
-  async startUi () {
+  async startAddNewContact () {
     await this.#ui.printAddContactPage()
     this.#addContactToAddressBook()
   }
@@ -18,5 +18,15 @@ export class ContactController {
   #addContactToAddressBook () {
     const newContact = this.#ui.getLastCreatedContact()
     this.#addressBook.addContact(newContact)
+  }
+
+  async startAddNewAddress (contact) {
+    await this.#ui.printAddAddressPage()
+    this.#addAddressToContact(contact)
+  }
+
+  #addAddressToContact (contact) {
+    const newAddress = this.#ui.getLastCreatedAddress()
+    contact.addAddress(newAddress)
   }
 }
