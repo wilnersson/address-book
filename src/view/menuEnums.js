@@ -26,6 +26,12 @@ export const contactMenuItems = {
       return 'Add a new address'
     }
   },
+  DELETE_CONTACT: {
+    value: 'DELETE_CONTACT',
+    toString: () => {
+      return 'Delete contact'
+    }
+  },
   BACK: {
     value: 'BACK',
     toString: () => {

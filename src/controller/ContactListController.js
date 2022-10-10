@@ -39,13 +39,23 @@ export class ContactListController {
   }
 
   #userDoesNotWantToGoBack () {
+    if (this.#checkCurrentContactDeleted()) {
+      return false
+    }
     return this.#ui.getContactMenuSelection().value !== contactMenuItems.BACK.value
+  }
+
+  #checkCurrentContactDeleted () {
+    return this.#currentContact === undefined
   }
 
   async #runContactMenuItem () {
     switch (this.#ui.getContactMenuSelection().value) {
       case contactMenuItems.ADD_ADDRESS.value:
         await this.#runAddAddress()
+        break
+      case contactMenuItems.DELETE_CONTACT.value:
+        this.#runDeleteContact()
         break
       case contactMenuItems.BACK.value:
         break
@@ -55,5 +65,10 @@ export class ContactListController {
   async #runAddAddress () {
     const contactController = new ContactController(this.#addressBook, this.#viewFactory)
     await contactController.startAddNewAddress(this.#currentContact)
+  }
+
+  #runDeleteContact () {
+    this.#addressBook.removeContact(this.#currentContact)
+    this.#currentContact = undefined
   }
 }
