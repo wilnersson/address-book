@@ -87,40 +87,54 @@ export class FilePersistence {
   }
 
   async overWriteAllContacts (contacts) {
-    const data = this.#stringifyContactsData(contacts)
+    const data = this.#stringifyContactObjects(contacts)
     await fs.writeFile(this.#FILE_PATH + this.#fileName, data, {
       encoding: 'utf-8'
     })
   }
 
-  #stringifyContactsData (contacts) {
-    const result = []
+  #stringifyContactObjects (contacts) {
+    const contactObjects = this.#convertContactsToObjects(contacts)
+    return JSON.stringify(contactObjects)
+  }
+
+  #convertContactsToObjects (contacts) {
+    const contactObjects = []
 
     for (const contact of contacts) {
-      const contactObject = {}
-
-      contactObject.firstName = contact.getFirstName()
-      contactObject.lastName = contact.getLastName()
-
-      if (contact.getAddresses().length > 0) {
-        const addresses = []
-        for (const address of contact.getAddresses()) {
-          addresses.push({
-            streetName: address.getStreetName(),
-            houseNumber: address.getHouseNumber(),
-            postalCode: address.getPostalCode(),
-            city: address.getCity(),
-            country: address.getCountry(),
-            addressType: address.getAddressType()
-          })
-        }
-
-        contactObject.addresses = addresses
-      }
-
-      result.push(contactObject)
+      contactObjects.push(this.#convertSingleContactToObject(contact))
     }
 
-    return JSON.stringify(result)
+    return contactObjects
+  }
+
+  #convertSingleContactToObject (contact) {
+    const contactObject = {}
+
+    contactObject.firstName = contact.getFirstName()
+    contactObject.lastName = contact.getLastName()
+
+    if (contact.getAddresses().length > 0) {
+      contactObject.addresses = this.#convertAddressesToObjects(contact.getAddresses())
+    }
+
+    return contactObject
+  }
+
+  #convertAddressesToObjects (addresses) {
+    const addressObjects = []
+
+    for (const address of addresses) {
+      addressObjects.push({
+        streetName: address.getStreetName(),
+        houseNumber: address.getHouseNumber(),
+        postalCode: address.getPostalCode(),
+        city: address.getCity(),
+        country: address.getCountry(),
+        addressType: address.getAddressType()
+      })
+    }
+
+    return addressObjects
   }
 }
