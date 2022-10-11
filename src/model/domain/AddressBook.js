@@ -20,7 +20,7 @@ export class AddressBook {
   }
 
   async saveContactsToPersistence () {
-    this.#persistence.saveContacts(Array.from(this.#contacts))
+    await this.#persistence.saveContacts(Array.from(this.#contacts))
   }
 
   addContact (contact) {

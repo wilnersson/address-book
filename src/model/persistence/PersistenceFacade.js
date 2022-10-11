@@ -11,9 +11,9 @@ export class PersistenceFacade {
     return await this.#dataSource.readAllContacts()
   }
 
-  saveContacts (contacts) {
+  async saveContacts (contacts) {
     try {
-      this.#dataSource.overWriteAllContacts(contacts)
+      await this.#dataSource.overWriteAllContacts(contacts)
     } catch (error) {
       throw new Error('Something went wrong, could not write to data source.')
     }
