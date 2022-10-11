@@ -1,11 +1,9 @@
 import { FilePersistence } from './FilePersistence.js'
-// import { MockData } from './MockData.js'
 
 export class PersistenceFacade {
   #dataSource
 
   constructor () {
-    // this.#dataSource = new MockData()
     this.#dataSource = new FilePersistence('data.json')
   }
 
