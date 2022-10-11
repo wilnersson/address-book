@@ -15,6 +15,17 @@ export class Address {
     'Temporary'
   ]
 
+  constructor (streetName, houseNumber, postalCode, city, country, addressType) {
+    if (streetName !== undefined) {
+      this.setStreetName(streetName)
+      this.setHouseNumber(houseNumber)
+      this.setPostalCode(postalCode)
+      this.setCity(city)
+      this.setCountry(country)
+      this.setAddressType(addressType)
+    }
+  }
+
   setStreetName (streetName) {
     this.#validateString(streetName)
     this.#streetName = streetName

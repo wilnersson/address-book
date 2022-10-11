@@ -1,14 +1,16 @@
-import { MockData } from './MockData.js'
+import { FilePersistence } from './FilePersistence.js'
+// import { MockData } from './MockData.js'
 
 export class PersistenceFacade {
   #dataSource
 
   constructor () {
-    this.#dataSource = new MockData()
+    // this.#dataSource = new MockData()
+    this.#dataSource = new FilePersistence('data.json')
   }
 
-  getContacts () {
-    return this.#dataSource.readAllContacts()
+  async getContacts () {
+    return await this.#dataSource.readAllContacts()
   }
 
   saveContacts (contacts) {

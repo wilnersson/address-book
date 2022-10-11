@@ -10,14 +10,17 @@ export class AddressBook {
 
   constructor () {
     this.#persistence = new PersistenceFacade()
-    this.#loadContactsFromPersistence()
   }
 
-  #loadContactsFromPersistence () {
-    const contacts = this.#persistence.getContacts()
+  async loadContactsFromPersistence () {
+    const contacts = await this.#persistence.getContacts()
     for (const contact of contacts) {
       this.#contacts.add(contact)
     }
+  }
+
+  async saveContactsToPersistence () {
+    this.#persistence.saveContacts(Array.from(this.#contacts))
   }
 
   addContact (contact) {

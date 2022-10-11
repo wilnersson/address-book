@@ -30,6 +30,8 @@ export class UserController {
       await this.#ui.printMainMenu()
       await this.#runMainMenuItem()
     } while (this.#userDoesNotWantToQuit())
+
+    await this.#saveApplicationState()
   }
 
   #userDoesNotWantToQuit () {
@@ -57,5 +59,9 @@ export class UserController {
   async #runAddContact () {
     const contactController = new ContactController(this.#addressBook, this.#viewFactory)
     await contactController.startAddNewContact()
+  }
+
+  async #saveApplicationState () {
+    await this.#addressBook.saveContactsToPersistence()
   }
 }

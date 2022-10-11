@@ -5,8 +5,9 @@ import { ViewFactory } from './view/ViewFactory.js'
 /**
  * Main entrypoint of the application.
  */
-function start () {
+async function start () {
   const addressBook = new AddressBook()
+  await addressBook.loadContactsFromPersistence()
   const viewFactory = new ViewFactory()
   const userController = new UserController(addressBook, viewFactory)
 
