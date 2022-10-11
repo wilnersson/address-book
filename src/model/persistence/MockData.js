@@ -1,10 +1,9 @@
-/**
- * Represents mocked data before adding file i/o or other persistence.
- */
-
 import { Address } from '../domain/Address.js'
 import { Contact } from '../domain/Contact.js'
 
+/**
+ * Handles persistence with mocked, temporary data. Does not save, good for testing.
+ */
 export class MockData {
   readAllContacts () {
     return this.#createContacts()
@@ -12,13 +11,13 @@ export class MockData {
 
   #createContacts () {
     const allContacts = []
-    const contact = new Contact('Henrik', 'Wilnersson')
+    const contact = new Contact('John', 'Doe')
     const address = new Address()
-    address.setStreetName('Jupitervägen')
-    address.setHouseNumber('17C')
-    address.setPostalCode('352 64')
-    address.setCity('Växjö')
-    address.setCountry('Sweden')
+    address.setStreetName('Example road')
+    address.setHouseNumber('1')
+    address.setPostalCode('111 11')
+    address.setCity('Sampletown')
+    address.setCountry('Nowheretania')
     address.setAddressType('Home')
 
     contact.addAddress(address)
@@ -26,5 +25,9 @@ export class MockData {
     allContacts.push(contact)
 
     return allContacts
+  }
+
+  overWriteAllContacts () {
+    console.log('Currently using mocked data, no data has been saved.')
   }
 }

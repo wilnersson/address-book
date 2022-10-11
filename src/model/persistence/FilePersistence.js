@@ -2,6 +2,9 @@ import fs from 'fs/promises'
 import { Address } from '../domain/Address.js'
 import { Contact } from '../domain/Contact.js'
 
+/**
+ * Handles persistence as a .json file.
+ */
 export class FilePersistence {
   #fileName
   #FILE_PATH = './data/'
@@ -22,7 +25,10 @@ export class FilePersistence {
         encoding: 'utf-8'
       })
     } catch (error) {
-      await this.#createFile()
+      // Check for file not found error.
+      if (error.code === 'ENOENT') {
+        await this.#createFile()
+      }
     }
   }
 

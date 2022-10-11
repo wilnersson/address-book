@@ -21,7 +21,7 @@ export class MainView {
 
   async printMainMenu () {
     try {
-      this.#viewHelper.clearConsole()
+      // this.#viewHelper.clearConsole()
       this.#currentMainMenuSelection = await collector.requestSingleChoiceInput('Main menu', this.#mainMenuChoices)
     } catch (error) {
       this.#viewHelper.alertUser(error.message)
