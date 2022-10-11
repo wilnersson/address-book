@@ -16,13 +16,6 @@ export class FilePersistence {
     return this.#parseContactsData()
   }
 
-  async overWriteAllContacts (contacts) {
-    const data = this.#stringifyContactsData(contacts)
-    await fs.writeFile(this.#FILE_PATH + this.#fileName, data, {
-      encoding: 'utf-8'
-    })
-  }
-
   async #loadContentFromFile () {
     try {
       this.#fileContent = await fs.readFile(this.#FILE_PATH + this.#fileName, {
@@ -40,6 +33,64 @@ export class FilePersistence {
     })
 
     await this.#loadContentFromFile()
+  }
+
+  #parseContactsData () {
+    const data = this.#getParsedDataFromFileContent()
+    return this.#getContactsFromParsedData(data)
+  }
+
+  #getParsedDataFromFileContent () {
+    return JSON.parse(this.#fileContent)
+  }
+
+  #getContactsFromParsedData (data) {
+    const contacts = []
+
+    for (const contactData of data) {
+      contacts.push(this.#getSingleContactFromParsedData(contactData))
+    }
+
+    return contacts
+  }
+
+  #getSingleContactFromParsedData (contactData) {
+    const newContact = new Contact(contactData.firstName, contactData.lastName)
+
+    if (contactData.addresses) {
+      const addresses = this.#parseAddressesFromData(contactData)
+      addresses.forEach((address) => {
+        newContact.addAddress(address)
+      })
+    }
+
+    return newContact
+  }
+
+  #parseAddressesFromData (contactData) {
+    const addresses = []
+
+    for (const address of contactData.addresses) {
+      addresses.push(
+        new Address(
+          address.streetName,
+          address.houseNumber,
+          address.postalCode,
+          address.city,
+          address.country,
+          address.addressType
+        )
+      )
+    }
+
+    return addresses
+  }
+
+  async overWriteAllContacts (contacts) {
+    const data = this.#stringifyContactsData(contacts)
+    await fs.writeFile(this.#FILE_PATH + this.#fileName, data, {
+      encoding: 'utf-8'
+    })
   }
 
   #stringifyContactsData (contacts) {
@@ -71,34 +122,5 @@ export class FilePersistence {
     }
 
     return JSON.stringify(result)
-  }
-
-  #parseContactsData () {
-    const contactsData = JSON.parse(this.#fileContent)
-
-    const contacts = []
-
-    for (const contact of contactsData) {
-      const newContact = new Contact(contact.firstName, contact.lastName)
-
-      if (contact.addresses) {
-        for (const address of contact?.addresses) {
-          newContact.addAddress(
-            new Address(
-              address.streetName,
-              address.houseNumber,
-              address.postalCode,
-              address.city,
-              address.country,
-              address.addressType
-            )
-          )
-        }
-      }
-
-      contacts.push(newContact)
-    }
-
-    return contacts
   }
 }
