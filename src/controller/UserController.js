@@ -8,7 +8,7 @@ import { ContactListController } from './ContactListController.js'
  */
 export class UserController {
   #addressBook
-  #ui
+  #view
   #viewFactory
 
   constructor (addressBook, viewFactory) {
@@ -16,7 +16,7 @@ export class UserController {
     this.#addressBook = addressBook
     this.#viewFactory = viewFactory
 
-    this.#ui = this.#viewFactory.getMainView()
+    this.#view = this.#viewFactory.getMainView()
   }
 
   #validateAddressBook (addressBook) {
@@ -27,7 +27,7 @@ export class UserController {
 
   async startUi () {
     do {
-      await this.#ui.printMainMenu()
+      await this.#view.printMainMenu()
       await this.#runMainMenuItem()
     } while (this.#userDoesNotWantToQuit())
 
@@ -35,11 +35,11 @@ export class UserController {
   }
 
   #userDoesNotWantToQuit () {
-    return this.#ui.getMainMenuSelection().value !== mainMenuItems.QUIT.value
+    return this.#view.getMainMenuSelection().value !== mainMenuItems.QUIT.value
   }
 
   async #runMainMenuItem () {
-    switch (this.#ui.getMainMenuSelection().value) {
+    switch (this.#view.getMainMenuSelection().value) {
       case mainMenuItems.LIST_CONTACTS.value:
         await this.#runContactList()
         break

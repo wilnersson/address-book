@@ -7,14 +7,14 @@ import { ContactController } from './ContactController.js'
 export class ContactListController {
   #addressBook
   #viewFactory
-  #ui
+  #view
 
   #currentContact
 
   constructor (addressBook, viewFactory) {
     this.#addressBook = addressBook
     this.#viewFactory = viewFactory
-    this.#ui = this.#viewFactory.getContactView()
+    this.#view = this.#viewFactory.getContactView()
   }
 
   async startUi () {
@@ -22,12 +22,12 @@ export class ContactListController {
       await this.#listAllContacts()
       await this.#startContactUi()
     } else {
-      await this.#ui.printNoContactsPage()
+      await this.#view.printNoContactsPage()
     }
   }
 
   async #listAllContacts () {
-    await this.#ui.printContacts(this.#addressBook.getContacts())
+    await this.#view.printContacts(this.#addressBook.getContacts())
   }
 
   async #startContactUi () {
@@ -38,15 +38,15 @@ export class ContactListController {
   }
 
   async #runContactPage () {
-    this.#currentContact = this.#ui.getContactSelection(this.#addressBook.getContacts())
-    await this.#ui.printContactPage(this.#currentContact)
+    this.#currentContact = this.#view.getContactSelection(this.#addressBook.getContacts())
+    await this.#view.printContactPage(this.#currentContact)
   }
 
   #userDoesNotWantToGoBack () {
     if (this.#checkCurrentContactDeleted()) {
       return false
     }
-    return this.#ui.getContactMenuSelection().value !== contactMenuItems.BACK.value
+    return this.#view.getContactMenuSelection().value !== contactMenuItems.BACK.value
   }
 
   #checkCurrentContactDeleted () {
@@ -54,7 +54,7 @@ export class ContactListController {
   }
 
   async #runContactMenuItem () {
-    switch (this.#ui.getContactMenuSelection().value) {
+    switch (this.#view.getContactMenuSelection().value) {
       case contactMenuItems.ADD_ADDRESS.value:
         await this.#runAddAddress()
         break
