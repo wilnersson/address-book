@@ -13,15 +13,19 @@ börja med att se följande resurser:
 
 Börja med att installera beroenden:
 
-`npm install`
+```bash
+npm install
+```
 
 Kör sedan applikationen med start-kommandot:
 
-`npm start`
+```bash
+npm start
+```
 
 ## Användning
 
-Applikationen använder sig av ett enkelt ,konsol-baserat, gränssnitt.
+Applikationen använder sig av ett enkelt, konsol-baserat, gränssnitt.
 Du använder appen genom att navigera med siffror och mata in text, bekräfta med enter.
 
 Från huvudmenyn kan du välja att lista existerande kontakter,
@@ -33,9 +37,7 @@ Applikationen sparar kontaktdata lokalt i mappen `./data/`.
 
 ## Kända problem
 
-[feature] Som användare vill jag kunna radera adresser ([#1](i1))
-
-[i1]: https://github.com/wilnersson/address-book/issues/1
+[feature] Som användare vill jag kunna radera adresser ([#1](https://github.com/wilnersson/address-book/issues/1))
 
 ## Test
 
@@ -49,6 +51,6 @@ Det finns inga enhetstester implementerade. För testresultat, se [testrapporten
 
 [Reflection](./reflection.md)
 
-[Requrements](./requirements.md)
+[Requirements](./requirements.md)
 
 [Testreport](./testreport.md)
