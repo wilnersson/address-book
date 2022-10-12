@@ -2,6 +2,14 @@
 
 TODO: Lägg till reflektioner för varje kapitel i boken, 4-6 meningar per kapitel med screenshots från kod i VARJE kapitel/stycke.
 
+Observera att jag har arbetat om min modul (L1) och lagt den i ett nytt repositorie. Anledningen till detta
+är att jag i det nya repositoriet har tagit bort mina personliga reflektioner och tester som tillhör
+laborationen, och laddat upp modulen som ett riktigt npm-paket. L1 som _faktiskt_ används i denna
+applikationen ligger då på följande platser:
+
+- [NPM-paket](https://www.npmjs.com/package/@wilnersson/console-input-collector)
+- [Github-repositorie](https://github.com/wilnersson/console-input-collector)
+
 ## Kapitel 2 - Meaningful names
 
 Generellt sett så har denna kursen fått mig att tänka mycket mer på, och vilja, skriva kod som flödar
@@ -69,15 +77,59 @@ Här i detta markdown-dokument så använder jag också principerna kring "horiz
 markdown inte särskiljer mellanslag och radbryt så har jag manuellt lagt in radbryt för att göra dokumentet
 mer läsbart oavsett om man läser det i preview eller som rå text.
 
-## Kapitel 6 - 
+## Kapitel 6 - Objects and Data Structures
 
-## Kapitel 7 - 
+Tycket detta är svåra koncept att reflektera kring, men mitt val av ett MVC-mönster "tvingar" mig till att
+göra vissa val. Det som kommer närmast rena datastrukturer är vissa av klasserna i modellen
+(tänker främst på `Contact` och `Address`). Dessa objekt representerar väldigt konkreta saker inom domänen,
+men har trots det ändå vissa regler som gör att jag tvingar användandet av setters. Exempelvis validering
+av strängar som skickas in. Dessa blir då en form av "hybrider", men det tycker jag är ok i ett
+MVC-mönster. Ett bra exempel på "the law of Demeter" skulle kunna vara min `AddressBook`-klass. Detta
+objekt har en tydlig intern data-struktur (listan över kontakter), men jag tillåter bara andra klasser
+att _se_ innehållet, lägga till en kontakt eller ta bort en kontakt. Men jag tillåter inte direkt
+manipulerande av listan.
 
-## Kapitel 8 - 
+![Exempelkod](./img/code-AddressBook.png)
 
-## Kapitel 9 - 
+## Kapitel 7 - Error handling
 
-## Kapitel 10 - 
+Hela applikationen är mer eller mindre byggd på principen "use exceptions rather than return codes" då
+jag använder det överallt för att styra flöden, aldrig "return codes". Jag har också försökt följa
+principen kring "define the normal flow" då jag styrt felhanteringen främst till mina vyer. Detta har jag
+dock inte lyckats med helt och hållet, exempelvis så finns en del felhantering i persistence-modellen, men
+i ett projekt av denna skala så kan jag tycka att det är ok. Nedan följer ett exempel på felhantering som
+styr användarens flödet i en vy. Här upprepas input till dess att en validerad sträng är uppnådd.
+
+![Exempelkod](./img/code-AddressView-collectAddressStreetName.png)
+
+## Kapitel 8 - Boundaries
+
+Då min egen modul (`@wilnersson/console-input-collector`) är utformad på ett sådant sätt att användas
+ganska frekvent i, exempelvis, en vy, så hade jag svårt att applicera dessa principer på just den modulen.
+Men däremot tycker jag att ett bra exempel på "boundaries" är mitt användande av "Facade"-mönstret när det
+gäller persistence. Klassen `PersistenceFacade` anser jag vara ett bra exempel på "boundaries" då den
+avgränsar den faktiska implementationen av persistence från övriga applikationen. Fasaden är extremt enkel
+och består bara av två metoder, men den döljer den betydligt mer komplexa implementationen i
+`FilePersistence.js`.
+
+![Exempelkod](./img/code-PersistenceFacade.png)
+
+## Kapitel 9 - Unit Tests
+
+Denna applikation innehåller, p.g.a tidsbrist, inga enhetstester. Men däremot så gör min L1 det, tänke
+därför applicera mina reflektioner där istället. Här känner jag att jag ändå gjort ett ganska bra jobb med
+principerna kring "clean tests" och "single concept per test". Mycket får jag såklart gratis genom att
+följa inbyggda metoder och rekommendationer från jest-ramverket. Men strukturen är byggd utifrån de olika
+klasserna och testerna har tydlig läsbarhet och tydligt syfte. Nedan följer ett exempel med tester för
+klassen som ska hantera och validera strängar.
+
+![Exempelkod](./img/code-console-input-collector-StringInput-test.png)
+
+## Kapitel 10 - Classes
+
+Jag försöker alltid att skriva kod efter SRP (Single Responsibility Principle), även om man såklart inte alltid lyckas. Ett exempel på detta är mina vyer som är uppdelade i olika ansvar, även om de rent tekniskt fortfarande handlar om input/output. Även om boken clean code menar att längd på klasser ska räknas i antalet "responsibilities" så känns det bra att min längsta klass fortfarande är mindre än 150 rader. Personligen tycker jag att "open/closed principle" och "dependency inversion principle" är väldigt svåra att greppa, men jag har ändå ett "frö" till en sådan lösning. Återigen vänder jag mig till mitt exempel med `PersistenceFacade`. Javascript stödjer inte realisation, men hade projektet byggts i exempelvis Java så hade det varit en enkel sak att låta fasad-klassen ta emot ett `PersistenceInterface` och låta `FilePersistence` och `MockData` implementera/realisera det interfacet. Det hade gjort applikationen öppen till att lägga till nya tekniker för persistence, utan att behöva ändra existerande klasser.
+
+![Exempelkod](./img/code-PersistenceFacade.png)
 
 ## Kapitel 11 - 
 
