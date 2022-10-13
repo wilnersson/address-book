@@ -4,10 +4,10 @@ Nedan hittas testspecifikation följt av en testrapport.
 
 ## Testspecifikation - Test Cases
 
-1.1. Lägg till en ny kontakt vid namn Jane Doe.
+1.1. Lägg till en ny kontakt vid namn "Jane Doe".
   - Kolla så att kontakten har skapats.
 
-1.2. Lägg till en ny kontakt utan efternamn.
+1.2. Lägg till en ny kontakt utan efternamn; "John ".
   - Se till att applikationen varnar för felaktigt efternamn.
 
 2.1. Gå till menyalternativ 1. (förutsätter att du skapat kontakter sedan tidigare)
@@ -26,7 +26,7 @@ Nedan hittas testspecifikation följt av en testrapport.
     - Exempellandet
   - Gå till kontakten och kolla så att adressen är skapad.
 
-3.2. Försök skapa en address utan gatunamn.
+3.2. Försök skapa en address utan gatunamn. Se addressen i TC 3.1, men bortse från "Exempelvägen".
   - Se till att applikationen varnar för felaktigt gatunamn.
 
 4.1. Gå till en kontakt.
