@@ -1,7 +1,5 @@
 # Reflektioner Clean Code
 
-TODO: Lägg till reflektioner för varje kapitel i boken, 4-6 meningar per kapitel med screenshots från kod i VARJE kapitel/stycke.
-
 Observera att jag har arbetat om min modul (L1) och lagt den i ett nytt repositorie. Anledningen till detta
 är att jag i det nya repositoriet har tagit bort mina personliga reflektioner och tester som tillhör
 laborationen, och laddat upp modulen som ett riktigt npm-paket. L1 som _faktiskt_ används i denna
@@ -37,8 +35,8 @@ ganska snabbt förstår vad den gör. Det som jag skulle kunnat göra bättre h�
 abstraktionsnivån i metoderna `#getContactsFromParsedData()` och `#getSingleContactFromParsedData()`,
 men jag hade svårt att hitta sätt att inte blanda abstraktionsnivå där.
 
-Annat som är värt att nämna är att jag helt har gjort mig av med min fula ovana att booleans som argument
-("Flag Arguments"), samt försöker hela tiden hålla nere antalet argument i metoder till 1, helst 0.
+Annat som är värt att nämna är att jag helt har gjort mig av med min fula ovana att använda booleans som
+argument ("Flag Arguments"), samt försöker hela tiden hålla nere antalet argument i metoder till 1, helst 0.
 
 ## Kapitel 4 - Comments
 
@@ -56,7 +54,7 @@ Nedan följer ett av få exempel där jag har lagt in en kommentar efter princip
 
 ![Exempelkod](./img/code-FilePersistence-loadContentFromFile.png)
 
-Syftet med koden är att öppna en fil med kontaktdata, och ladda in datan i applikationen. MEN, om filen
+Syftet med koden är att öppna en fil med kontaktdata, och ladda in denna data i applikationen. MEN, om filen
 av någon anledning inte finns, så behöver den skapas. Detta uppnår jag genom att fånga undantaget med
 felkod `ENOENT`, vilket betyder att filen inte hittas, och i så fall skapa en ny fil.
 Felkoden är standard från fs-paketet som är inbyggt i Node, jag kan alltså inte påverka det.
@@ -98,7 +96,7 @@ jag använder det överallt för att styra flöden, aldrig "return codes". Jag h
 principen kring "define the normal flow" då jag styrt felhanteringen främst till mina vyer. Detta har jag
 dock inte lyckats med helt och hållet, exempelvis så finns en del felhantering i persistence-modellen, men
 i ett projekt av denna skala så kan jag tycka att det är ok. Nedan följer ett exempel på felhantering som
-styr användarens flödet i en vy. Här upprepas input till dess att en validerad sträng är uppnådd.
+styr användarens flöde i en vy. Här upprepas input till dess att en validerad sträng är uppnådd.
 
 ![Exempelkod](./img/code-AddressView-collectAddressStreetName.png)
 
@@ -127,9 +125,31 @@ klassen som ska hantera och validera strängar.
 
 ## Kapitel 10 - Classes
 
-Jag försöker alltid att skriva kod efter SRP (Single Responsibility Principle), även om man såklart inte alltid lyckas. Ett exempel på detta är mina vyer som är uppdelade i olika ansvar, även om de rent tekniskt fortfarande handlar om input/output. Även om boken clean code menar att längd på klasser ska räknas i antalet "responsibilities" så känns det bra att min längsta klass fortfarande är mindre än 150 rader. Personligen tycker jag att "open/closed principle" och "dependency inversion principle" är väldigt svåra att greppa, men jag har ändå ett "frö" till en sådan lösning. Återigen vänder jag mig till mitt exempel med `PersistenceFacade`. Javascript stödjer inte realisation, men hade projektet byggts i exempelvis Java så hade det varit en enkel sak att låta fasad-klassen ta emot ett `PersistenceInterface` och låta `FilePersistence` och `MockData` implementera/realisera det interfacet. Det hade gjort applikationen öppen till att lägga till nya tekniker för persistence, utan att behöva ändra existerande klasser.
+Jag försöker alltid att skriva kod efter SRP (Single Responsibility Principle), även om man såklart inte
+alltid lyckas. Ett exempel på detta är mina vyer som är uppdelade i olika ansvar, även om de rent tekniskt
+fortfarande handlar om input/output. Boken clean code menar att längd på klasser ska räknas i
+antalet "responsibilities", inte rader. Trots det så känns det bra att min längsta klass är mindre än 150
+rader. Personligen tycker jag att "open/closed principle" och "dependency inversion principle" är väldigt
+svåra att greppa, men jag har ändå ett "frö" till en sådan lösning. Återigen vänder jag mig till mitt
+exempel med `PersistenceFacade`. Javascript stödjer inte realisation, men hade projektet byggts i
+exempelvis Java så hade det varit en enkel sak att låta fasad-klassen ta emot ett `PersistenceInterface`
+och låta `FilePersistence` och `MockData` implementera/realisera det interfacet. Det hade gjort
+applikationen öppen till att lägga till nya tekniker för persistence, utan att behöva ändra existerande
+klasser.
 
 ![Exempelkod](./img/code-PersistenceFacade.png)
 
-## Kapitel 11 - 
+## Kapitel 11 - Systems
 
+Generellt sett är koncepten i detta kapitlet svåra att greppa, speciellt vissa detaljer. Men det
+övergripande budskapet går fram och jag tror att jag ändå delvis lyckats fånga detta i min applikation, och
+då menar jag främst principen "separate constructing a system from using it". Det jag syftar till är mitt
+användande av en `ViewFactory` som jag skickar till `UserController` att använda för att presentera ett UI
+till användaren. Detta gör jag i `index.js`. I ett objektorienterat språk hade jag valt att göra
+ViewFactory till ett interface, för att sedan låta varje typ av UI få en egen konkret fabrik;
+`ConsoleViewFactory`, `HTMLViewFactory`, o.s.v. Jag hade även kunnat göra en liknande lösning för min
+persistence, d.v.s. skapa ett interface `PersistenceInterface` och sedan göra konkreta implementationer av
+detta. `index.js` hade sedan fått skapa en instans av en konkret persistence-klass och skicka med till
+applikationen. Nedan är min `index.js`-fil.
+
+![Exempelkod](./img/code-index.png)
